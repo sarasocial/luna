@@ -1,0 +1,20 @@
+
+    zsh
+    nano
+    base-devel
+    git
+    openssh
+    oh-my-zsh-git (paru)
+    pipewire / pulse
+    rsync
+    man
+    keychain (?)
+    neofetch
+    openresolv
+    wireguard-tools
+    whois
+    bind
+    zip, unzip
+
+system config
+systemctl enable NetworkManager
