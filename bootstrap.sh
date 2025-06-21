@@ -215,7 +215,8 @@ print "Do you want to proceed?" ""
 
 if ! confirm; then exit 0; fi # get confirmation
 
-auth --require pacman -Syu # update system
+auth --require pacman -Sy # update system
+auth pacman -Syu
 
 if [ "${#pacman_needed[@]}" -ge 1 ]; then # install packages
     echo ""; auth --require pacman -S "${pacman_needed[@]}"
