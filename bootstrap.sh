@@ -94,7 +94,7 @@ auth () (
             echo -ne "\r\e[0K${color[yellow]}--- Authorization Required ---"
             echo -ne "\e[1A\r\e[0K"
             echo -ne "\r\e[0K${color[magenta]}  $ Password: "
-            read -rs SP; printf ""
+            read -rs SP < /dev/tty; printf ""
             printf "$SP\n" | sudo -Svk 2>/dev/null
             if [ ! $? -eq 0 ]; then
                 echo -e "\r\e[0K${color[red]}    [Incorrect Password]"
@@ -127,7 +127,7 @@ display () {
             print -c magenta '               [ by @sarasoci.al ]'
             print ""
             printf  "${color[yellow]}          [ Press any key to continue ] "
-            read -n 1 -sr
+            read -n 1 -sr < /dev/tty
             printf "\r\033[0K"
             print -c magenta "             -----------------------"
             printf "\r\033[0K\n"
@@ -145,7 +145,7 @@ confirm () {
         echo -ne "\r\e[0K${color[yellow]}--- Response Required ---"
         echo -ne "\e[1A\r\e[0K"
         echo -ne "\r\e[0K${color[magenta]}  $ Response [y/N]: ${color[white]}"
-        read -r answer; printf ""
+        read -r answer < /dev/tty; printf ""
         case "${answer,,}" in
             y|yes)
                 echo -e "\033[1A\033[K${color[magenta]}  > [Responded 'Yes']"
