@@ -229,3 +229,16 @@ git clone 'https://github.com/sarasocial/luna' $HOME/.luna-temp || {
     error 'Unable to clone Github Repository' \
     'Repo: https://github.com/sarasocial/luna'
 }
+
+chmod +x $PWD/install.sh
+auth --require rm -rf /bin/luna
+auth ln -s $PWD/install.sh /bin/luna
+
+print -c magenta "Bootstrap complete!" ""
+print "You can run the Luna installer at any time with:"
+print "  $ luna"
+print "Would you like to run it now?" ""
+
+if ! confirm; then exit 0; fi
+
+luna
