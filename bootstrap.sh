@@ -93,7 +93,7 @@ auth () (
             echo ""
             echo -ne "\r\e[0K${color[yellow]}--- Authorization Required ---"
             echo -ne "\e[1A\r\e[0K"
-            echo -ne "\r\e[0K${color[magenta]}  $ Password: "
+            echo -ne "\r\e[0K${color[magenta]}  $ Password: ${color[white]}${text[reset]}"
             read -rs SP < /dev/tty; printf ""
             printf "$SP\n" | sudo -Svk 2>/dev/null
             if [ ! $? -eq 0 ]; then
