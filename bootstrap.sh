@@ -148,11 +148,13 @@ confirm () {
         read -r answer < /dev/tty; printf ""
         case "${answer,,}" in
             y|yes)
-                echo -e "\033[1A\033[K${color[magenta]}  > [Responded 'Yes']"
+                echo -ne "\033[1A\033[K"
+                print -c magenta "  > [Responded 'Yes']"
                 return 0
                 ;;
             n|no)
-                echo -e "\033[1A\033[K${color[magenta]}  > [Responded 'No']"
+                echo -ne "\033[1A\033[K"
+                print -c magenta "  > [Responded 'No']"
                 return 1
                 ;;
             *)
@@ -191,6 +193,9 @@ fi
 
 # DISPLAY LOGO & INTRO TEXT
 display logo
+print "Luna is meant to be installed on fresh systems only; do not"
+print "proceed with installation unless you are willing to risk file"
+print "loss and/or damage to your system." ""
 
 print "Proceeding with this script will perform the following actions:"
 print "  1. Update your system, if necessary"
@@ -199,7 +204,7 @@ action_num=2
 if [ "${#pacman_needed[@]}" -ge 1 ]; then
     action_num=3
     pkgmsgs=( '  2. Install the following package(s) to your system:' )
-    for pkg in "${pacman_needed[@]}"; do pkgmsgs+=("  - $pkg"); done
+    for pkg in "${pacman_needed[@]}"; do pkgmsgs+=("       - $pkg"); done
     print "${pkgmsgs[@]}"
 fi
 
