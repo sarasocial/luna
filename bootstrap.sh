@@ -230,9 +230,9 @@ git clone 'https://github.com/sarasocial/luna' $HOME/.luna-temp || {
     'Repo: https://github.com/sarasocial/luna'
 }
 
-chmod +x $PWD/install.sh
+chmod +x $HOME/.luna-temp/install.sh
 auth --require rm -rf /bin/luna
-auth ln -s $PWD/install.sh /bin/luna
+auth ln -s $HOME/.luna-temp/install.sh /bin/luna
 
 print -c magenta "Bootstrap complete!" ""
 print "You can run the Luna installer at any time with:"
