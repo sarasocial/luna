@@ -1,23 +1,47 @@
 #!/bin/bash
 
-echo "hello world"
 
 mkdirs () (
-    sudo mkdir ~/.local 2>/dev/null
-    sudo mkdir ~/.temp 2>/dev/null
-    sudo mkdir ~/.local/bin 2>/dev/null
-)
+    sudo mkdir $HOME/.luna 2>/dev/null
+    SRC=$HOME/.luna
+    sudo mkdir ~/.luna/dots 2>/dev/null
+    sudo mkdir ~/.luna/bin 2>/dev/null
+);
+mkdirs
 
-update () {
-    mkdirs
-    sudo rm -rf ~/.local/luna 2>/dev/null
-    git clone https://github.com/sarasocial/luna ~/.local/luna
-    local dots=~/.local/luna/dots
-    local conf=~/.config
-
-    for dir in "$dots"/*/; do
-        name=$(basename "$dir")
-        # copy to .config, overwriting if exists
-        cp -rT "$dir" "$conf/$name"
-    done
+dots_update () {
+    local TEMP=$(mktemp -d)
+    {
+        sudo rm -rf $SRC/dots; mkdirs
+        git clone https://github.com/sarasocial/luna $TEMP/luna
+        local dots=$TEMP/luna/dots
+        local conf=$HOME/.config
+        rm -rf -- "$conf" && cp -a -- "$dots" "$conf"
+    }
+    sudo rm -rf $TEMP
 }
+
+git clone https://github.com/HyDE-Project/HyDE ~/hyde-temp 
+
+dots () {
+    case "$1" in
+        update)
+            dots_update
+            ;;
+        *)
+            echo "unknown <dots> subcommand"
+            ;;
+    esac
+}
+
+
+# case for initial command
+case "$1" in
+    dots)
+        shift
+        dots "$@"
+        ;;
+    *)
+        echo "unknown command"
+        ;;
+esac
