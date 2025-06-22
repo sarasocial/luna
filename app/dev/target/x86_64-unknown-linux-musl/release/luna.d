@@ -1,1 +1,0 @@
-/home/sara/dev/luna/app/dev/target/x86_64-unknown-linux-musl/release/luna: /home/sara/dev/luna/app/dev/src/extra/mod.rs /home/sara/dev/luna/app/dev/src/install/mod.rs /home/sara/dev/luna/app/dev/src/install/paru.rs /home/sara/dev/luna/app/dev/src/luna.rs /home/sara/dev/luna/app/dev/src/main.rs
