@@ -28,6 +28,7 @@ jobs:
       - name: update prod folder
         if: success()
         run: |
+          rm -rf luna/app/dev/target
           rm -rf luna/app/prod
           # use rsync to only copy source, not build artifacts or dotfiles
           rsync -av --exclude 'target' --exclude '.git' --exclude '.gitignore' --exclude '.DS_Store' luna/app/dev/ luna/app/prod/
