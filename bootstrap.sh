@@ -5,7 +5,14 @@
 # -----------------------------------------------------------------------------
 
 # pacman dependencies
-pacman_deps=( git base-devel gum )
+aurhelper="paru"
+pacman_deps=(
+    git
+    base-devel
+    rust
+    gum
+)
+
 pacman_needed=()
 paru_needed=1
 
@@ -222,21 +229,26 @@ if [ "${#pacman_needed[@]}" -ge 1 ]; then # install packages
     echo ""; auth --require pacman -S "${pacman_needed[@]}"
 fi
 
-echo ""; auth --require rm -rf $HOME/.luna-temp || {
-    error "Unable to authorize removal of $HOME/.luna-temp"
+echo ""; auth --require rm -rf $HOME/.luna || {
+    error "Unable to authorize removal of $HOME/.luna"
 }
-git clone 'https://github.com/sarasocial/luna' $HOME/.luna-temp || {
+git clone 'https://github.com/sarasocial/luna' $HOME/.luna || {
     error 'Unable to clone Github Repository' \
     'Repo: https://github.com/sarasocial/luna'
 }
 
-chmod +x $HOME/.luna-temp/luna.sh
-auth --require rm -rf /bin/luna
-auth ln -s $HOME/.luna-temp/luna.sh /bin/luna
+{
+    cd $HOME/.luna/app/prod
+    cargo build --release
+    auth rm -rf /bin/luna
+    auth cp target/release/luna /bin/luna
+} || {
+    error 'Unable to build Luna'
+}
 
 print -c magenta "Bootstrap complete!" ""
 print "You can run the Luna installer at any time with:"
-print "  $ luna"
+print "  $ luna install"
 print "Would you like to run it now?" ""
 
 if ! confirm; then exit 0; fi
