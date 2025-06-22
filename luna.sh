@@ -21,8 +21,6 @@ dots_update () {
     sudo rm -rf $TEMP
 }
 
-git clone https://github.com/HyDE-Project/HyDE ~/hyde-temp 
-
 dots () {
     case "$1" in
         update)
