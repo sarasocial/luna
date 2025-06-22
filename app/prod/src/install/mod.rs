@@ -1,7 +1,5 @@
-mod paru;
+mod dots;
 
 pub fn run() {
-    println!("installing...");
-    paru::run();
-    println!("done!");
+    let _ = dots::run();
 }
