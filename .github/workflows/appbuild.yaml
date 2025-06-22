@@ -36,6 +36,6 @@ jobs:
         if: success()
         run: |
           git config user.name "luna app"
-          git config user.email "app@luna.dev"
-          git add luna/app
-          git diff --cached --quiet && echo "no changes to commit" || (git commit -m "ci: update luna/app to last successful build" && git push)
+          git config user.email "app@lu.na"
+          git add luna/app/prod
+          git diff --cached --quiet && echo "no changes to commit" || (git commit -m "ci: update luna/app/prod to last successful build" && git push)
