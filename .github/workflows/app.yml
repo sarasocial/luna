@@ -38,5 +38,5 @@ jobs:
         run: |
           git config user.name "luna app"
           git config user.email "app@lu.na"
-          git add -f app/prod
-          git diff --cached --quiet && echo "no changes to commit" || (git commit -m "ci: update app/prod to last successful build" && git push)
+          git add app/prod
+          git diff --cached --quiet && echo "no changes to commit" || (git commit -m "ci: update app/prod to successful build" && git push https://${{ secrets.BUILD_TOKEN }}@github.com/sarasocial/luna.git HEAD:main)
