@@ -32,4 +32,3 @@ fn main() {
         None => luna::run()
     }
 }
-
