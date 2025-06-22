@@ -3,7 +3,7 @@ name: Update Luna App Folder
 on:
   push:
     paths:
-      - 'luna/app/dev/**'
+      - 'app/dev/**'
 
 jobs:
   build-and-sync:
@@ -22,21 +22,21 @@ jobs:
 
       - name: build dev
         run: |
-          cd luna/app/dev
+          cd app/dev
           cargo build --release
 
       - name: update prod folder
         if: success()
         run: |
-          rm -rf luna/app/dev/target
-          rm -rf luna/app/prod
+          rm -rf app/dev/target
+          rm -rf app/prod
           # use rsync to only copy source, not build artifacts or dotfiles
-          rsync -av --exclude 'target' --exclude '.git' --exclude '.gitignore' --exclude '.DS_Store' luna/app/dev/ luna/app/prod/
+          rsync -av --exclude 'target' --exclude '.git' --exclude '.gitignore' --exclude '.DS_Store' app/dev/ app/prod/
 
       - name: commit and push if changed
         if: success()
         run: |
           git config user.name "luna app"
           git config user.email "app@lu.na"
-          git add luna/app/prod
-          git diff --cached --quiet && echo "no changes to commit" || (git commit -m "ci: update luna/app/prod to last successful build" && git push)
+          git add app/prod
+          git diff --cached --quiet && echo "no changes to commit" || (git commit -m "ci: update app/prod to last successful build" && git push)
