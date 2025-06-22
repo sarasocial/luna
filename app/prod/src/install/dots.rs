@@ -1,26 +1,24 @@
-use fs_extra::dir::{copy as copy_dir, CopyOptions};
 use dirs::home_dir;
+use std::fs;
 
 pub fn run() -> std::io::Result<()> {
-    let repo_dots = home_dir()
-        .expect("could not find $HOME")
-        .join(".luna")
-        .join("dots");
+    let dots = home_dir().unwrap().join(".luna").join("dots");
+    let config = home_dir().unwrap().join(".config");
 
-    println!("copying from {:?}", repo_dots);
-
-    if !repo_dots.exists() {
-        panic!("could not find {:?}", repo_dots);
+    for entry in fs::read_dir(&dots)? {
+        let entry = entry?;
+        let src = entry.path();
+        let dst = config.join(entry.file_name());
+        if src.is_dir() {
+            let _ = fs_extra::dir::copy(&src, &config, &{
+                let mut options = fs_extra::dir::CopyOptions::new();
+                options.overwrite = true;
+                options.copy_inside = false; // copying *this dir* into config
+                options
+            });
+        } else {
+            fs::copy(&src, &dst)?;
+        }
     }
-
-    let config_dir = home_dir().unwrap().join(".config");
-    println!("to {:?}", config_dir);
-
-    let mut options = CopyOptions::new();
-    options.overwrite = true;
-    options.copy_inside = true;
-
-    copy_dir(&repo_dots, &config_dir, &options)
-        .map(|_| ())
-        .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))
+    Ok(())
 }
