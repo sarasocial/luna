@@ -9,6 +9,10 @@ mkdirs () (
 );
 mkdirs
 
+install () {
+    
+}
+
 dots_update () {
     local TEMP=$(mktemp -d)
     {
@@ -35,6 +39,11 @@ dots () {
 
 # case for initial command
 case "$1" in
+    install)
+        shift
+        install "$@"
+        ;;
+    *)
     dots)
         shift
         dots "$@"
