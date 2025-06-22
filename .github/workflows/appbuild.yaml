@@ -1,0 +1,41 @@
+name: Update Luna App Folder
+
+on:
+  push:
+    paths:
+      - 'luna/app/dev/**'
+
+jobs:
+  build-and-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: set up rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: build dev
+        run: |
+          cd luna/app/dev
+          cargo build --release
+
+      - name: update prod folder
+        if: success()
+        run: |
+          rm -rf luna/app/prod
+          # use rsync to only copy source, not build artifacts or dotfiles
+          rsync -av --exclude 'target' --exclude '.git' --exclude '.gitignore' --exclude '.DS_Store' luna/app/dev/ luna/app/prod/
+
+      - name: commit and push if changed
+        if: success()
+        run: |
+          git config user.name "luna app"
+          git config user.email "app@luna.dev"
+          git add luna/app
+          git diff --cached --quiet && echo "no changes to commit" || (git commit -m "ci: update luna/app to last successful build" && git push)
