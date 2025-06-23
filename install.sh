@@ -1,10 +1,54 @@
 #!/bin/bash
 
 BRANCH="main" # options: main, dev, testing
-VERBOSE=1
+VERBOSE=true
+
+OPER
+
+declare -A SETTINGS=(
+    [bash-version]='4.4+'
+    [operating-systems]
+)
+
+print () {
+
+}
+
+warn () {
+
+}
 
 error () {
-    echo "error: $1"; shift
+
+}
+
+
+
+conclude ()
+
+declare -A formats=(
+    [black]="$(tput setaf 0)"
+    [red]="$(tput setaf 1)"
+    [green]="$(tput setaf 2)"
+    [yellow]="$(tput setaf 3)"
+    [blue]="$(tput setaf 4)"
+    [pink]="$(tput setaf 5)"
+    [cyan]="$(tput setaf 6)"
+    [white]="$(tput setaf 7)"
+    [bold]="$(tput bold)"
+    [reset]="$(tput sgr0)"
+)
+
+red="$(tput setaf 1)"
+white="$(tput setaf 7)"
+reset="$(tput sgr0)"
+str1="hello world"
+str2="$(tput setaf 1)$(tput bold)hello world$(tput sgr0)"
+echo "${#str1}"
+echo "${#str2}"
+
+error () {
+    echo "$(red)error: $1"; shift
     until [ -z "$1" ]; do
         if [ "$1" = "*" ]; then echo ""; else echo "$1"; fi
         shift

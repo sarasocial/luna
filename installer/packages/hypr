@@ -1,0 +1,3 @@
+pacman: hyprland
+pacman: hypridle hyprpaper hyprlock hyprsunset hyprpolkitagent
+pacman: kitty nemo neovim firefox

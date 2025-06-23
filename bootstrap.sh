@@ -115,10 +115,19 @@ auth () (
     fi
     if sudo -nv 2>/dev/null; then
         unset SP
-        sudo $command
+        {
+            sudo $command
+            return 0
+        } || error
     else
-        printf "$SP\n" | sudo -S 2>/dev/null $command
-        unset SP
+        {
+            printf "$SP\n" | sudo -S 2>/dev/null $command
+            unset SP
+            return 0
+        } || {
+            unset SP
+            error
+        }
     fi
 )
 
@@ -232,6 +241,7 @@ fi
 echo ""; auth --require rm -rf $HOME/.luna || {
     error "Unable to authorize removal of $HOME/.luna"
 }
+
 git clone 'https://github.com/sarasocial/luna' $HOME/.luna || {
     error 'Unable to clone Github Repository' \
     'Repo: https://github.com/sarasocial/luna'
