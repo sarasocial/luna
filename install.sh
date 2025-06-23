@@ -1,59 +1,49 @@
-sudo pacman -Syu
-sudo pacman -S --needed git base-devel nano
-sudo pacman -S rust
-sudo pacman -S pipewire ffmpeg
-sudo pacman -S noto-fonts
+#!/bin/bash
 
-# CREATE LOCAL FOLDERS
-mkdir ~/.local
-mkdir ~/.local/bin
-LOCAL=~/.local
-LOCALBIN=~/.local/bin
+BRANCH="main" # options: main, dev, testing
+VERBOSE=1
 
-# CREATE TEMP FOLDER
-mkdir ~/.temp # store shit here
-TEMP=~/.temp
-
-# INSTALL PARU
-install_paru () {
-    git clone https://aur.archlinux.org/paru.git $TEMP/paru
-    cd $TEMP/paru
-    makepkg -si
-    cd ~/
-    cd ~/
-    sudo rm -rf $TEMP/paru
+error () {
+    echo "error: $1"; shift
+    until [ -z "$1" ]; do
+        if [ "$1" = "*" ]; then echo ""; else echo "$1"; fi
+        shift
+    done
+    exit 1
 }
 
-# INSTALL LIBREPODS
-install_librepods () {
-    cd ~/; sudo rm -rf $TEMP/librepods
-    git clnoe htttps://github.com/kavishdevar/librepods $TEMP/librepods
-    cd $TEMP/librepods/linux
-    sed -i '1i#define PHONE_MAC_ADDRESS "9C:DA:A8:96:54:EE"' main.cpp
-    mkdir build; cd build
-    cmake ..
-    make -sji $(nproc)
-    make -j $(nproc)
-    sudo rm -rf $LOCALBIN/librepods
-    mv librepods $LOCALBIN/librepods
-    sudo ln -s $LOCALBIN/librepods /bin/librepods
-    cd ~/; sudo rm -rf $TEMP/librepods
+help () {
+    echo ""
 }
 
-install_paru
+until [ -z "$1" ]; do
+    case "$1" in
+        -v|--verbose) VERBOSE=0; ;;
+        -b|--branch)
+            shift; case "$1" in
+                s|stable|m|main|master|p|prod|production) ;;
+                u|unstable|d|dev|development|) BRANCH="dev"; ;;
+                t|test|testing|unstable) BRANCH="test"; ;;
+                *)
+                    error "invalid branch specifier '$1'; valid specifiers are:" \
+                    "  - 'stable'" "  - 'unstable'" "  - 'development'"
+                    ;;
+            esac; shift; ;;
+        *)
+            error "invalid flag '$1'"
+            ;;
+    esac
+done
 
-sudo pacman -S qt6-base qt6-connectivity qt6-multimedia-ffmpeg qt6-multimedia
-sudo pacman -S hyprland
-sudo pacman -S hyprpaper hypridle hyprlock hyprsunset hyprpolkitagent
-sudo pacman -S firefox kitty nemo code
+check_command () {
+    if ! command -v $1 >/dev/null 2>&1; then
+        echo "error: '$2' not found"
+        exit 1
+    fi
+}
 
-install_librepods
-
-sudo pacman -S quickshell
-
-cp $PWD/dots ~/.dots
-
-sudo rm -rf ~/.config/hypr/hyprland.conf
-sudo echo 'mainMod = Super' > ~/.config/hypr/hyprland.conf
-sudo echo 'bind = $mainMod, Escape, exec, killactive # Generic kill' > ~/.config/hypr/hyprland.conf
-sudo echo 'bind = $mainMod, Grave, exec, kitty # Terminal' > ~/.config/hypr/hyprland.conf
+# naive version comparison
+if [ "$(printf '%s\n' "$REQUIRED_BASH" "$BASH_VER" | sort -V | head -n1)" != "$REQUIRED_BASH" ]; then
+  echo "error: bash $REQUIRED_BASH or newer required. found bash $BASH_VER."
+  exit 1
+fi

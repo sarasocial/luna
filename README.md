@@ -1,44 +1,148 @@
-luna **personal computer** is computer pc app dotfile m
+`luna` **personal computer** is computer pc app dotfile m
 
-### dependencies
+it HAS:
+
+- app
+- - dot file
+
+for your benefit and well being
+1. 
+
+2. One
+
+## dependencies
 
 - a **personal computer**
-- it is **run arch linux** btw
-- probably **bash 4.X+**
+- it **is run arch Linux** , btw !
+- probably like **bash 4.0+** or **bash 4.4+** or smthing
 - a keyboard so you can type
-- you dont need a display but it is recommended . so you can see what you  type
+- you dont need a display but it is recommended . so you can see what you  type . with the keyboard
+- **512GB RAM minimum**
 
-### downloading & installation
+## installing
 
-**to download:** execute `curl -L sarasoci.al/luna | bash` to run [bootstrap.sh](https://raw.githubusercontent.com/sarasocial/luna/master/bootstrap.sh) (its just a redirect to the bigger link so u dont have to type as much)
+here are two methods of installing `luna`:
 
-**to install**: follow instructions and type in ur password a couple of times
+### one-liner
 
-### notes
+the fastest way to get `luna` set up is by running the bootstrap script [bootstrap.sh](https://raw.githubusercontent.com/sarasocial/luna/master/bootstrap.sh) with the following command:
+
+> ```console
+> sara@arch:~$ curl -L sarasoci.al/luna | bash
+>```
+
+optionally, you can run the bootstrap in debug mode:
+
+> ```console
+> sara@arch:~$ curl -L sarasoci.al/luna | bash -s -- debug
+>```
+
+### longer method for freaks
+
+if you want to do this the old-fashioned way, you can instead use:
+
+> ```console
+> user@arch:~$ sudo pacman -S --needed base-devel git gum rust
+> user@arch:~$ git clone https://github.com/sarasocial/luna
+> user@arch:~$ cd luna
+> ```
+>```bash
+> ...  # idk what the rest of the steps are yet actually
+> ...  # i haven't gotten that far :((
+> ```
+
+## notes
 
 - the bootstrap will install a few packages on ur system and do a good amount of tinkering
-- it will also **compile rust binaries**
+- it will also **compile rust binaries** .
+
+<details>
+
+<summary></summary>
+
+# bitches love me for my binaries
+
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+---
+
+</details>
+
 - there are probably glaring security issues in virtually every part of this        but       i really dont care  right now
 
-- you shouldnt use this .   i am insane
+- you should not use this . like actually please dont lol
 
 
-# im gay
-160 202 208/209 7 205 169 162
-color_line () {
-    printf "$(tput setaf $2)$1$(tput setaf 7)$(tput sgr0)
-}
-lesbian () (
-    print_lesbian_line () {
-        printf "\n"
-        local line="you say you a lesbian girl me too"
-        until [ "$#" -le 0 ]; do
-            printf "%s%s%s\n" "$(tput setaf $1)" "$line" "$(tput sgr0)"
-            shift
-        done
-        printf "\n"
+## im gay
+
+pub fn lesbian() {
+    // comment
+    let line = "you say you a lesbian girl me too";
+    for &color in [160, 202, 209, 7, 205, 169, 162].iter() {
+        println!("\x1b[38;5;{}m{}\x1b[0m", color, line);
     }
-    print_lesbian_line 160 202 209 7 205 169 162
-)
+}
 
-lesbian
+> ```console
+> sara@arch:~$ luna lesbian
+> ```

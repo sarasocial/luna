@@ -251,6 +251,6 @@ print "You can run the Luna installer at any time with:"
 print "  $ luna install"
 print "Would you like to run it now?" ""
 
-if ! confirm; then exit 0; fi
+if ! confirm; then echo ""; exit 0; fi
 
 luna
